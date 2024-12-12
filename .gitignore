@@ -399,3 +399,13 @@ FodyWeavers.xsd
 
 # Local development settings
 *appsettings.Development.json
+
+# NServiceBus local development files
+.learningtransport/
+
+# Log files
+*log.txt
+*logs/
+
+# Sqlite database files
+*.sqlite*

@@ -4,10 +4,12 @@ namespace NorthPole.Web.Letters;
 
 public class Create : Endpoint<CreateLetterRequest>
 {
+  private readonly ILogger<Create> _logger;
   private readonly IMessageSession _messageSession;
 
-  public Create(IMessageSession messageSession)
+  public Create(ILogger<Create> logger, IMessageSession messageSession)
   {
+    _logger = logger;
     _messageSession = messageSession;
   }
 
@@ -22,6 +24,7 @@ public class Create : Endpoint<CreateLetterRequest>
   }
     public override async Task HandleAsync(CreateLetterRequest req, CancellationToken cancellationToken)
     {
+        _logger.LogInformation("North Pole received letter from {ChildName} asking for {Gift}, routing message to Santa's Inbox", req.ChildName, req.Gift);
         var message = new LetterToSanta(req.ChildName, req.Gift);
         await _messageSession.Send(message, cancellationToken);
     }

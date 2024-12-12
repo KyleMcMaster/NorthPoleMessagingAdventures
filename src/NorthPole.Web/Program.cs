@@ -29,9 +29,9 @@ builder.AddServiceDefaults();
 builder.Host.UseNServiceBus(_ =>
 {
   var endpointConfiguration = new EndpointConfiguration("north-pole-api");
-  
-  var transport = endpointConfiguration.UseTransport<LearningTransport>();
+  endpointConfiguration.UseSerialization<SystemJsonSerializer>();
 
+  var transport = endpointConfiguration.UseTransport<LearningTransport>();
   transport.Routing().RouteToEndpoint(
     typeof(LetterToSanta),
     "santas-inbox");
