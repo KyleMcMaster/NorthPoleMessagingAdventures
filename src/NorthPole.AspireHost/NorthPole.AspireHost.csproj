@@ -17,6 +17,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\NorthPole.Web\NorthPole.Web.csproj" />
+    <ProjectReference Include="..\NorthPole.SantasInbox\NorthPole.SantasInbox.csproj" />
+    <ProjectReference Include="..\NorthPole.SantasWorkshop\NorthPole.SantasWorkshop.csproj" />
+    <ProjectReference Include="..\NorthPole.SantasSleigh\NorthPole.SantasSleigh.csproj" />
+    <ProjectReference Include="..\WorldWide.Homes\WorldWide.Homes.csproj" />
   </ItemGroup>
   <ItemGroup>
     <!-- The IsAspireProjectResource attribute tells .NET Aspire to treat this 
