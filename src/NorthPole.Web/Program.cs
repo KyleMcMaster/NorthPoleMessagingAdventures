@@ -1,4 +1,5 @@
-﻿using NorthPole.Web.Configurations;
+﻿using NorthPole.Core.Letters;
+using NorthPole.Web.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +25,22 @@ builder.Services.AddFastEndpoints()
                 });
 
 builder.AddServiceDefaults();
+
+builder.Host.UseNServiceBus(_ =>
+{
+  var endpointConfiguration = new EndpointConfiguration("north-pole-api");
+  
+  var transport = endpointConfiguration.UseTransport<LearningTransport>();
+
+  transport.Routing().RouteToEndpoint(
+    typeof(LetterToSanta),
+    "santas-inbox");
+
+  endpointConfiguration.SendOnly();
+  endpointConfiguration.EnableInstallers();
+
+  return endpointConfiguration;
+});
 
 var app = builder.Build();
 
