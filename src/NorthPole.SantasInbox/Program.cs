@@ -1,6 +1,5 @@
+using NorthPole.Core.Gifts;
 using NorthPole.Core.NaughtyOrNice;
-using NorthPole.SantasInbox;
-using NorthPole.SantasInbox.Inbox;
 
 var builder = Host.CreateApplicationBuilder(args);
 
