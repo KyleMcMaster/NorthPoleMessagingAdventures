@@ -1,3 +1,4 @@
+using NorthPole.Core.Gifts;
 using NorthPole.Core.Letters;
 using NorthPole.Core.NaughtyOrNice;
 
@@ -23,17 +24,5 @@ public class LetterToSantaHandler : IHandleMessages<LetterToSanta>
 
     _logger.LogInformation("Santa is giving {ChildName} the gift of {Gift}", message.ChildName, gift);
     await context.Send(new CreateGiftCommand(message.ChildName, gift));
-  }
-}
-
-public class CreateGiftCommand : IMessage
-{
-  public string ChildName { get; init; }
-  public string Gift { get; init; }
-
-  public CreateGiftCommand(string childName, string gift)
-  {
-    ChildName = childName;
-    Gift = gift;
   }
 }
