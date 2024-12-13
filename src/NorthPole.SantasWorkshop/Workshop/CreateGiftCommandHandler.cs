@@ -4,7 +4,7 @@ namespace NorthPole.SantasWorkshop.Workshop;
 
 public class CreateGiftCommandHandler : IHandleMessages<CreateGiftCommand>
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<CreateGiftCommandHandler> _logger;
 
     public CreateGiftCommandHandler(ILogger<CreateGiftCommandHandler> logger)
     {
