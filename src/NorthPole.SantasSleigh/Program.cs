@@ -1,6 +1,9 @@
-
+using NorthPole.Core.SantasSleigh;
 
 var builder = Host.CreateApplicationBuilder(args);
+
+builder.Services.AddScoped<ISleighEngine, SleighEngine>();
+
 var endpointConfiguration = new EndpointConfiguration("santas-sleigh");
 endpointConfiguration.UseSerialization<SystemJsonSerializer>();
 
