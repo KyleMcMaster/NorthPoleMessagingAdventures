@@ -1,3 +1,5 @@
+using NorthPole.Core.Presents;
+
 namespace NorthPole.Core.SantasSleigh;
 
 public interface ISleighEngine
@@ -14,12 +16,14 @@ public class SleighEngine : ISleighEngine
     The reindeer are ready to fly!
     Santa's sleigh has taken off!
     """;
-
   private readonly ILogger _logger;
+  private List<Present> _presents;
+  public IReadOnlyCollection<Present> Presents => _presents.AsReadOnly();
 
-  public SleighEngine(ILogger<SleighEngine> logger)
+  public SleighEngine(ILogger<SleighEngine> logger, List<Present> presents)
   {
     _logger = logger;
+    _presents = presents;
   }
 
   public void Takeoff(Sleigh sleigh)

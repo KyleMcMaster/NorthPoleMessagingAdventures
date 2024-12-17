@@ -3,7 +3,7 @@ using NorthPole.Core.SantasSleigh;
 namespace NorthPole.SantasSleigh.SantasSleigh;
 
 public class SleighTakeoffSaga : Saga<SleighTakeoffSagaData>,
-    IAmStartedByMessages<SleighLoadedWithNewGiftEvent>,
+    IAmStartedByMessages<SleighContainsNewPresentEvent>,
     IHandleTimeouts<ChristmasEveTimeout>
 {
   private readonly ILogger<SleighTakeoffSaga> _logger;
@@ -15,22 +15,21 @@ public class SleighTakeoffSaga : Saga<SleighTakeoffSagaData>,
 
   protected override void ConfigureHowToFindSaga(SagaPropertyMapper<SleighTakeoffSagaData> mapper)
   {
-    mapper.ConfigureMapping<SleighLoadedWithNewGiftEvent>(message => message.SleighId)
+    mapper.ConfigureMapping<SleighContainsNewPresentEvent>(message => message.SleighId)
       .ToSaga(sagaData => sagaData.SleighId);
   }
 
-  public async Task Handle(SleighLoadedWithNewGiftEvent message, IMessageHandlerContext context)
+  public async Task Handle(SleighContainsNewPresentEvent message, IMessageHandlerContext context)
   {
-    // TODO: register timeout for takeoff
     int year = DateTime.UtcNow.Year;
     await RequestTimeout(context, DateTimeOffset.Parse($"12/24/{year}"), new ChristmasEveTimeout());
   }
 
-  public Task Timeout(ChristmasEveTimeout state, IMessageHandlerContext context)
+  public async Task Timeout(ChristmasEveTimeout state, IMessageHandlerContext context)
   {
-    // TODO: Time to take off! Send command for Rudolf to save the day!
+    // Send command for Rudolf to save the day!
+    await context.Send(new LetsGoRudolfCommand(Data.SleighId));
     MarkAsComplete();
-    return Task.CompletedTask;
   }
 }
 

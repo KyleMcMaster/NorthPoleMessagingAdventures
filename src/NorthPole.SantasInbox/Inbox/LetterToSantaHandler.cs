@@ -20,9 +20,9 @@ public class LetterToSantaHandler : IHandleMessages<LetterToSanta>
     _logger.LogInformation("Santa reading letter from {ChildName}", message.ChildName);
     bool isNice = _naughtyOrNiceList.IsNice(message.ChildName);
     _logger.LogInformation("Santa determined {ChildName} is {Status}.", message.ChildName, isNice ? "nice" : "naughty");
-    var gift = isNice ? message.Gift : "Coal";
+    var present = isNice ? message.Present : "Coal";
 
-    _logger.LogInformation("Santa is giving {ChildName} the gift of {Gift}", message.ChildName, gift);
-    await context.Send(new CreateGiftCommand(message.ChildName, gift));
+    _logger.LogInformation("Santa is giving {ChildName} the gift of {Present}", message.ChildName, present);
+    await context.Send(new CreatePresentCommand(message.ChildName, present));
   }
 }

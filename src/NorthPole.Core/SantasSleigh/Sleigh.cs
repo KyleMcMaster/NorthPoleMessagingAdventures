@@ -1,12 +1,12 @@
-using NorthPole.Core.Gifts;
+using NorthPole.Core.Presents;
 
 namespace NorthPole.Core.SantasSleigh;
 
 public class Sleigh : EntityBase<Guid>, IAggregateRoot
 {
-  private IEnumerable<Gift> Gifts { get; init; }
+  private IEnumerable<Present> Gifts { get; init; }
 
-  public Sleigh(IEnumerable<Gift> gifts)
+  public Sleigh(IEnumerable<Present> gifts)
   {
     Gifts = gifts;
   }
@@ -19,7 +19,7 @@ public class Sleigh : EntityBase<Guid>, IAggregateRoot
     }
   }
 
-  public void DeliverGift(Gift gift)
+  public void DeliverGift(Present gift)
   {
     gift.Deliver();
   }
