@@ -1,4 +1,5 @@
 using Ardalis.SharedKernel;
+using NorthPole.Core.Chimneys;
 using NorthPole.Core.Presents;
 using NorthPole.Core.SantasSleigh;
 
@@ -7,14 +8,18 @@ namespace NorthPole.SantasSleigh.SantasSleigh;
 public class AddPresentToSleighCommandHandler : IHandleMessages<AddPresentToSleighCommand>
 {
     private readonly ILogger<AddPresentToSleighCommand> _logger;
+    private readonly IRepository<Chimney> _chimneyRepository;
     private readonly IRepository<Sleigh> _sleighRepository;
     private readonly IRepository<Present> _presentRepository;
 
-    public AddPresentToSleighCommandHandler(ILogger<AddPresentToSleighCommand> logger,
-    IRepository<Sleigh> sleighRepository,
-    IRepository<Present> presentRepository)
+    public AddPresentToSleighCommandHandler(
+        ILogger<AddPresentToSleighCommand> logger,
+        IRepository<Chimney> chimneyRepository,
+        IRepository<Sleigh> sleighRepository,
+        IRepository<Present> presentRepository)
     {
         _logger = logger;
+        _chimneyRepository = chimneyRepository;
         _sleighRepository = sleighRepository;
         _presentRepository = presentRepository;
     }
@@ -22,11 +27,11 @@ public class AddPresentToSleighCommandHandler : IHandleMessages<AddPresentToSlei
     public async Task Handle(AddPresentToSleighCommand message, IMessageHandlerContext context)
     {
         var present = await _presentRepository.GetByIdAsync(message.PresentId, context.CancellationToken);
-        Guid sleighId = Guid.NewGuid(); // TODO: Get SleighId from this year's sleigh (repo)
-        Guid chimneyId = Guid.NewGuid(); // TODO: Get ChimneyId from Child's address (repo)
-        present!.SetDestination(chimneyId);
-        // TODO: add gift to sleigh
-        // _logger.LogInformation("Sleigh {SleighId} loaded with {Gift} for {ChildName} destined for {ChimneyId}", sleighId, message.Gift, message.ChildName, chimneyId);
-        await context.Publish(new SleighContainsNewPresentEvent(sleighId));
+        var sleigh = await _sleighRepository.SingleOrDefaultAsync(new SantasSleighSpecification(), context.CancellationToken);
+        var chimney = await _chimneyRepository.SingleOrDefaultAsync(new ChimneyByChildNameSpec(present!.ChildName), context.CancellationToken);
+        present!.SetDestination(chimney!.Id);
+        sleigh!.AddPresent(present);
+        _logger.LogInformation("Sleigh {SleighId} loaded with {Present} for {ChildName} destined for {ChimneyId}", sleigh.Id, present.Type, present.ChildName, chimney.Id);
+        await context.Publish(new SleighContainsNewPresentEvent(sleigh!.Id));
     }
 }

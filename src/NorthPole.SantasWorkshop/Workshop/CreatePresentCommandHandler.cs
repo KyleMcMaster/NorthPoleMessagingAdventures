@@ -5,18 +5,11 @@ using NorthPole.Core.Presents;
 
 namespace NorthPole.SantasWorkshop.Workshop;
 
-public class CreatePresentCommandHandler : IHandleMessages<CreatePresentCommand>
+public class CreatePresentCommandHandler(ILogger<CreatePresentCommandHandler> logger, IElfAssigner elfAssigner, IRepository<Present> repository) : IHandleMessages<CreatePresentCommand>
 {
-  private readonly ILogger<CreatePresentCommandHandler> _logger;
-  private readonly IElfAssigner _elfAssigner;
-  private IRepository<Present> _repository;
-
-  public CreatePresentCommandHandler(ILogger<CreatePresentCommandHandler> logger, IElfAssigner elfAssigner, IRepository<Present> repository)
-  {
-    _logger = logger;
-    _elfAssigner = elfAssigner;
-    _repository = repository;
-  }
+  private readonly ILogger<CreatePresentCommandHandler> _logger = logger;
+  private readonly IElfAssigner _elfAssigner = elfAssigner;
+  private IRepository<Present> _repository = repository;
 
   public async Task Handle(CreatePresentCommand message, IMessageHandlerContext context)
   {
