@@ -20,14 +20,13 @@
     <ProjectReference Include="..\NorthPole.SantasInbox\NorthPole.SantasInbox.csproj" />
     <ProjectReference Include="..\NorthPole.SantasWorkshop\NorthPole.SantasWorkshop.csproj" />
     <ProjectReference Include="..\NorthPole.SantasSleigh\NorthPole.SantasSleigh.csproj" />
-    <ProjectReference Include="..\WorldWide.Homes\WorldWide.Homes.csproj" />
+    <ProjectReference Include="..\WorldWide.Homes\WorldWide.Chimneys.csproj" />
   </ItemGroup>
   <ItemGroup>
     <!-- The IsAspireProjectResource attribute tells .NET Aspire to treat this 
         reference as a standard project reference and not attempt to generate
         a metadata file -->
-    <ProjectReference Include="..\NorthPole.ServiceDefaults\NorthPole.ServiceDefaults.csproj"
-                      IsAspireProjectResource="false" />
+    <ProjectReference Include="..\NorthPole.ServiceDefaults\NorthPole.ServiceDefaults.csproj" IsAspireProjectResource="false" />
   </ItemGroup>
 
 </Project>

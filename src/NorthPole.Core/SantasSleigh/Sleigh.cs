@@ -1,3 +1,4 @@
+using NorthPole.Core.Chimneys;
 using NorthPole.Core.Presents;
 
 namespace NorthPole.Core.SantasSleigh;
@@ -20,7 +21,7 @@ public class Sleigh : EntityBase<Guid>, IAggregateRoot
     }
   }
 
-  public void DeliverPresent(Present present)
+  public void DeliverPresent(Present present, Chimney chimney)
   {
     present.Deliver();
   }

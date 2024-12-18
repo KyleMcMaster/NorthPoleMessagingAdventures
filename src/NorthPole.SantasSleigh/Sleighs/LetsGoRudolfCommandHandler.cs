@@ -13,6 +13,7 @@ public class LetsGoRudolfCommandHandler(ILogger<LetsGoRudolfCommandHandler> logg
     _logger.LogInformation("Received command to unleash Rudolf's true potential!");
     var sleigh = await _repository.SingleOrDefaultAsync(new SantasSleighSpecification(), context.CancellationToken);
     sleigh!.Takeoff();
+    await context.Publish(new SleighHasTakenOffEvent());
     _logger.LogInformation("Rudolf has saved the day!");
   }
 }
